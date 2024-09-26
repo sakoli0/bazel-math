@@ -13,15 +13,3 @@ cc_test(
         "@com_google_googletest//:gtest_main",
     ],
 )
-
-genrule(
-    name = "package",
-    srcs = [":math_operations"],
-    outs = ["bazelmath.tar.gz"],
-    cmd = """
-        mkdir -p bazelmath/lib bazelmath/include
-        cp $(locations :math_operations) | grep '\.so$$' | xargs -I {} cp {} bazelmath/lib/
-        cp src/main/cpp/math_operations.h bazelmath/include/
-        tar -czf $@ bazelmath
-    """,
-)
